@@ -317,6 +317,13 @@ export async function startGatewayServer(
 ): Promise<GatewayServer> {
   bootstrapGatewayNetworkRuntime();
 
+  // Initialize telemetry module in background (non-blocking)
+  import("../infra/telemetry/index.js")
+    .then(({ initializeTelemetry }) => initializeTelemetry())
+    .catch(() => {
+      // Silently ignore telemetry initialization errors
+    });
+
   const minimalTestGateway =
     isVitestRuntimeEnv() && process.env.OPENCLAW_TEST_MINIMAL_GATEWAY === "1";
 
@@ -1069,6 +1076,11 @@ export async function startGatewayServer(
         await runClosePrelude();
         await close(opts);
       } finally {
+        // Shutdown telemetry module
+        const { shutdownTelemetry } = await import("../infra/telemetry/index.js");
+        await shutdownTelemetry().catch(() => {
+          // Silently ignore telemetry shutdown errors
+        });
         clearFallbackGatewayContextForServer();
       }
     },

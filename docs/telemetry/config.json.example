@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "reporters": {
+    "kafka": {
+      "enabled": false,
+      "configPath": "telemetry/kafka.json"
+    },
+    "local": {
+      "enabled": true,
+      "path": "telemetry/usage.jsonl",
+      "rotation": {
+        "maxSizeMb": 100,
+        "maxAgeDays": 7,
+        "maxFiles": 10
+      }
+    }
+  }
+}

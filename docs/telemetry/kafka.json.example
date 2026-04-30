@@ -1,0 +1,14 @@
+{
+  "brokers": ["localhost:9092"],
+  "topic": "openclaw.model.usage",
+  "clientId": "openclaw-telemetry",
+  "acks": 1,
+  "batchSize": 10,
+  "flushIntervalMs": 5000,
+  "ssl": false,
+  "sasl": {
+    "mechanism": "plain",
+    "username": "your-username",
+    "password": "your-password"
+  }
+}
